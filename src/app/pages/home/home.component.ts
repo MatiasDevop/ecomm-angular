@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-home',
@@ -7,12 +8,44 @@ import { Component } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
 
   /**
    *
    */
-  constructor() {
-    console.log('dsadsada');    
+  productList:any [] = [];
+  cartObj : any ={
+    "CartId": 0,
+    "CustId": 1,
+    "ProductId": 0,
+    "Quantity": 0,
+    "AddedDate": "2024-01-26T12:25:50.919Z"
+  }
+
+  constructor(private productService: ProductService) {
+    
+  }
+
+  ngOnInit(): void {
+      debugger;
+      this.loadAllProducts();  
+  }
+
+  loadAllProducts() {
+    debugger;
+    this.productService.getAllProducts().subscribe((result: any) => {
+        this.productList = result.data;
+    })
+  }
+
+  addItemToCart(productId: number){
+    debugger;
+    this.cartObj.ProductId = productId;
+    this.productService.addToCart(this.cartObj).subscribe((result: any) => {
+      if (result.result) {
+        alert("Product Added to Cart");
+        this.productService.cardAddedSubject.next(true);
+      }
+    })
   }
 }

@@ -24,3 +24,19 @@ a:hover {
 .img-fluid {
     height: 300px !important;
 }
+
+.cart::after {
+    display: none !important;
+}
+
+.dropdown-menu{
+    top: 100%;
+    left: unset !important;
+    right: 0px !important;
+    margin-top: var(--bs-dropdown-spacer);
+}
+ 
+.CartContainer {
+    width: 300px;
+    padding: 5px;
+}

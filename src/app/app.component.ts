@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { UserInterface } from './interfaces/user-interface.model';
+import { ProductService } from './services/product.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,46 @@ import { UserInterface } from './interfaces/user-interface.model';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'app-dev';
+export class AppComponent implements OnInit{
+  title = 'app-dev-ecommerce';
   // fruits: string[] = ['Apple', 'Orange', 'Banana'];
+  
+  /**
+   *
+   */
+  cartProducts: any[] = [];
+  subTotal: number = 0;
+
+  constructor(private productService: ProductService, private router: Router) { 
+    this.productService.cardAddedSubject.subscribe(res => {
+      debugger;
+      this.loadCart();
+    })
+  }
+  
+  ngOnInit(): void {
+    this.loadCart();
+  }
+
+  loadCart() {
+    this.subTotal = 0;
+    this.productService.getCartItemsByCustId(1).subscribe((res: any) => {
+        this.cartProducts = res.data;
+        this.cartProducts.forEach(element => {
+          this.subTotal = this.subTotal + element.productPrice;
+        });
+        debugger;
+    })  
+  }
+  
+  redirectToSale(){
+    this.router.navigateByUrl("sale");
+  }
+  
+  
+  
+  
+  
   fruits: Array<string> = ['Apple', 'Orange', 'Banana']
   foo: string | number = 'foos';
 
@@ -55,9 +93,7 @@ export class AppComponent {
   }
 
   result = this.addId(user);
-  ngOnInit(){
-    console.log('result', this.result);
-  }
+  
   
 
 }
