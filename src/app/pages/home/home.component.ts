@@ -27,7 +27,8 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-      debugger;
+    // testing git hooks
+      console.log("Testing git hooks")
       this.loadAllProducts();  
   }
 
