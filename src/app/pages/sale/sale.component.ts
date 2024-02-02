@@ -12,10 +12,6 @@ import { SaleModel } from '../../interfaces/sale-model';
   styleUrl: './sale.component.css',
 })
 export class SaleComponent implements OnInit {
-  /**
-   *
-   */
-
   cartProducts: CartProduct[] = [];
   subTotal: number = 0;
   saleObj: SaleModel = {

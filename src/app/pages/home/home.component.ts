@@ -6,15 +6,10 @@ import { ApiResponse } from '../../interfaces/api-remove-response.model';
 
 @Component({
   selector: 'app-home',
-  //   standalone: true,
-  //  imports: [rou],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  /**
-   *
-   */
   productList: Product[] = [];
   cartObj: Order = {
     'CartId': 0,
@@ -27,8 +22,6 @@ export class HomeComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    // testing git hooks
-    console.log('Testing git hooks');
     this.loadAllProducts();
   }
 
