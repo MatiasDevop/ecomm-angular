@@ -1,52 +1,50 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
+import { Product } from '../../interfaces/product.model';
+import { Order } from '../../interfaces/order.model';
+import { ApiResponse } from '../../interfaces/api-remove-response.model';
 
 @Component({
   selector: 'app-home',
   //   standalone: true,
   //  imports: [rou],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit{
-
+export class HomeComponent implements OnInit {
   /**
    *
    */
-  productList:any [] = [];
-  cartObj : any ={
-    "CartId": 0,
-    "CustId": 1,
-    "ProductId": 0,
-    "Quantity": 0,
-    "AddedDate": "2024-01-26T12:25:50.919Z"
-  }
+  productList: Product[] = [];
+  cartObj: Order = {
+    'CartId': 0,
+    'CustId': 1,
+    'ProductId': 0,
+    'Quantity': 0,
+    'AddedDate': '2024-01-26T12:25:50.919Z',
+  };
 
-  constructor(private productService: ProductService) {
-    
-  }
+  constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
     // testing git hooks
-      console.log("Testing git hooks")
-      this.loadAllProducts();  
+    console.log('Testing git hooks');
+    this.loadAllProducts();
   }
 
   loadAllProducts() {
-    debugger;
-    this.productService.getAllProducts().subscribe((result: any) => {
-        this.productList = result.data;
-    })
+    this.productService.getAllProducts().subscribe((result: ApiResponse<Product[]>) => {
+      this.productList = result.data || [];
+    });
   }
 
-  addItemToCart(productId: number){
-    debugger;
+  addItemToCart(productId: number) {
     this.cartObj.ProductId = productId;
-    this.productService.addToCart(this.cartObj).subscribe((result: any) => {
+    this.productService.addToCart(this.cartObj).subscribe((result: ApiResponse<null>) => {
       if (result.result) {
-        alert("Product Added to Cart");
+        alert('Product Added to Cart');
         this.productService.cardAddedSubject.next(true);
       }
-    })
+    });
   }
 }
